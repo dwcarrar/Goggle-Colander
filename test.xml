@@ -1,0 +1,8 @@
+<phpunit>
+
+    <testsuites>
+        <testsuite name="Goggle Tests">
+            <directory>/src/test/*Test.php</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
