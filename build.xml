@@ -1,4 +1,4 @@
-<project name="Colander" basedir="." default="default">
+<project name="Colander" basedir="." default="main">
 
   <!--inputs-->
   <property name="main.src.dir" value="src/main"/>
@@ -32,8 +32,7 @@
     </phpunit>
   </target>
 
-  <target name="run">
-  </target>
+  <target name="main" depends="clean,test" />
 
 	
 </project>
