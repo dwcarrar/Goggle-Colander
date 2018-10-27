@@ -1,13 +1,13 @@
  <?php
    date_default_timezone_set('America/Detroit');
     
-    if (iiset($_GET['ym'])){
-        $yum = $_GET['ym'];
+    if (isset($_GET['ym'])){
+        $ym = $_GET['ym'];
     } else {
         $ym = date('Y-m');
     }
 
-    $timestamp = strtotime($ym, "-01");
+    $timestamp = strtotime($ym,"-01");
     if ($timestamp == false) {
         $timestamp = time();
     }
@@ -19,9 +19,9 @@
     $prev = date('Y-m', mktime(0, 0, 0, date('m', $timestamp)-1, 1, date('Y', $timestamp)));
     $next = date('Y-m', mktime(0, 0, 0, date('m', $timestamp)+1, 1, date('Y', $timestamp)));
 
-    $date_count = date('t', $timestamp);
+    $day_count = date('t', $timestamp);
     
-    $str = date('w', mktime(0, 0, 0, date('m', $timestamp), 1, date('Y', timestamp)));
+    $str = date('w', mktime(0, 0, 0, date('m', $timestamp), 1, date('Y', $timestamp)));
 
     $weeks = array();
     $week = '';
@@ -52,12 +52,12 @@
     }    
 ?>
 
-<!DOCTYPE html>font-family: 'Amatic SC', cursive;
+<!DOCTYPE html>
 <head>
     <meta charset="utf-font-family: 'Amatic SC', cursive;8">
     <title>PHP Calendar</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="ano     nymous">
-    <link href="https://fonts.googleapis.com/css?family=Amatic+SC:700" rel="stylesheet">            
+    <link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">            
     <style>
         .container {
             font-family: 'Amatic SC', cursive;
@@ -72,7 +72,7 @@
             height: 100px;
         }
         .today {
-            background: yellow;
+            background: #fffd8e;
         }
         th:nth-of-type(7),td:nth-of-type(7){
             color: red;
@@ -89,13 +89,13 @@
         <br>
         <table class="table table-bordered">
             <tr>
-                <th>S</t>
-                <th>M</th>
-                <th>T</th>
-                <th>W</th>
-                <th>T</th>
-                <th>F</th>
-                <th>S</th>
+                <th>Sunday</t>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
             </tr>
             <?php
               foreach($weeks as $week) {
