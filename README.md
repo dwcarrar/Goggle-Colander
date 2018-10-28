@@ -5,11 +5,11 @@ To install needed packages with composer, use the command:
 $php composer.phar update
 
 
-To run the build file, use the command (not working atm):
+To run the (non functioning) build file, use the command:
 
-$php phing-latest.phar main
+$php vendor/bin/phing main
 
 
 Clean up build files with:
 
-$php phing-latest.phar clean
+$php vendor/bin/phing clean
