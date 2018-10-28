@@ -15,4 +15,5 @@ Clean up build files with:
 $php vendor/bin/phing clean
 
 Run individual tests with:
+
 $php vendor/bin/phpunit [-options] src/test/testFile.php
