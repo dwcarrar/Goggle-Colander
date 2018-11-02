@@ -2,7 +2,7 @@
 
 To install needed packages with composer, use the command:
 
-$php composer.phar update
+$php composer.json update
 
 
 To run the build file, use the command:
