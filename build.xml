@@ -1,20 +1,44 @@
-<project name="Colander" basedir="." default="default">
+<project name="Colander" basedir="." default="main">
 
-	<!--inputs-->
-	<property name="main.src.dir" value="src/main"/>
-	<property name="test.src.dir" value="src/test"/>
+  <!--inputs-->
+  <property name="main.src.dir" value="src/main"/>
+  <property name="test.src.dir" value="src/test"/>
 	
-	<!--class file outputs-->
-	<property name="build.dir" value="build"/>
-	<property name="main.classes.dir" value="build/main"/>
-	<property name="test.classes.dir" value="build/test"/>
+  <!--class file outputs-->
+  <property name="build.dir" value="build"/>
+  <property name="main.classes.dir" value="build/main"/>
+  <property name="test.classes.dir" value="build/test"/>
 
-	<phpunit>
-		<testsuites>
-			<testsuite name="Goggle Tests">
-				<directory>/src/test/*Test.php</directory>
-			</testsuite>
-		</testsuites>
-	</phpunit>
+  <path id="classpath">
+    <pathelement dir = "vendor/bin/phpunit" />
+    <pathelement dir ="${main.classes.dir}"/>
+  </path>
+
+  <target name ="clean">
+      <delete dir = "${build.dir}"/>
+  </target>
+
+  <target name = "main-compile">
+    <mkdir dir="${main.classes.dir}"/>
+  </target>
+
+  <target name = "test-compile" depends="main-compile">
+    <mkdir dir="${test.classes.dir}"/>
+  </target>
+
+  <target name="test" depends="test-compile">
+    <phpunit codecoverage="false" haltonfailure="true">
+      <classpath refid="classpath"/>
+      <formatter type="plain" usefile="false"/>
+      <batchtest>
+        <fileset dir="${test.src.dir}">
+          <include name="**/*Test.php"/>
+        </fileset>
+      </batchtest>
+    </phpunit>
+  </target>
+
+  <target name="main" depends="clean,test" />
+
 	
 </project>
