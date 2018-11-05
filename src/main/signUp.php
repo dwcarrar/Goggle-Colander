@@ -12,14 +12,14 @@
     $actPass = str_rot13($_POST['password']);
     $sql = "insert into user( name, username, password) values ('".$_POST['name']."', '".$_POST['username']."', '$actPass');";
     
-    $result = mysql_query( $sql, $dbh);
-               //or die("SQL statement is wrong.");
+    $result = mysql_query( $sql, $dbh)
+               or die("SQL statement is wrong.");
 
     echo mysql_error($dbh); 
     //$statement = $dbh->prepare( "insert into user( name, username, password) values :name, :username, :password");
     //$actPass = str_rot13($_POST['password']);
     //$result = $statement->execute(array(':name'=>$_POST['name'], ':username'=>$_POST['username'], ':name'=>$actPass));
-    //header("LOCATION:logIn.php");
+    header("LOCATION:conlander.php");
     mysql_close($dbh);
 //}
 //catch (PDOException $e) {
