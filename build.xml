@@ -6,29 +6,22 @@
 	
   <!--class file outputs-->
   <property name="build.dir" value="build"/>
-  <property name="main.classes.dir" value="build/main"/>
+  <property name="main.classes.dir" value="/local/group_projects/cs3141/classdb/tspdatabase/main"/>
   <property name="test.classes.dir" value="build/test"/>
 
-  <path id="classpath">
-    <pathelement dir = "vendor/bin/phpunit" />
-    <pathelement dir ="${main.classes.dir}"/>
-  </path>
-
   <target name ="clean">
-      <delete dir = "${build.dir}"/>
+    <delete dir = "${build.dir}"/>
+    <delete dir = "${main.classes.dir}"/>
   </target>
 
-  <target name = "main-compile">
+  <target name = "prepare">
     <mkdir dir="${main.classes.dir}"/>
-  </target>
-
-  <target name = "test-compile" depends="main-compile">
     <mkdir dir="${test.classes.dir}"/>
   </target>
 
-  <target name="test" depends="test-compile">
-    <phpunit codecoverage="false" haltonfailure="true">
-      <classpath refid="classpath"/>
+  <target name="test" depends="prepare">
+    <phpunit haltonfailure="true">
+      
       <formatter type="plain" usefile="false"/>
       <batchtest>
         <fileset dir="${test.src.dir}">
@@ -36,6 +29,14 @@
         </fileset>
       </batchtest>
     </phpunit>
+  </target>
+
+  <target name="build" depends="prepare">
+    <copy todir="${main.classes.dir}">
+      <fileset dir="${main.src.dir}">
+        <include name="*"/>
+      </fileset>
+    </copy>
   </target>
 
   <target name="main" depends="clean,test" />
