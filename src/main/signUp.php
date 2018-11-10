@@ -1,21 +1,22 @@
 <?php
 class signUp {
-    
+
     //Verifies a valid username and matching passwords and creates new account
     function TrySignUp ($name, $uname, $pass1, $pass2) {                                                    
-        $dbh = mysql_connect("classdb.it.mtu.edu:3307", "jpaquett", "squidward")                          
+        $dbh = mysql_connect("classdb.it.mtu.edu:3307", "jpaquett", "squidward", true)                          
             or die ("Couldn't connect to database.");                                                 
         $db  = mysql_select_db("tspdatabase", $dbh)                                                       
             or die ("Couldn't select database.");
 
+        $exitpoint = 0;
+
         $unique = $this->UniqueName($uname);
         if (!($unique)) {
             echo "This username is already in use.";             
-            header("LOCATION:home.php");
         }
         else if ($pass1 != $pass2) {
             echo "The passwords entered do not match!";
-            header("LOCATION:home.php");
+            $exitpoint = 1;
         }
         else {
             $actPass = str_rot13($pass1);
@@ -27,8 +28,10 @@ class signUp {
 
             echo mysql_error($dbh); 
             header("LOCATION:conlander.php");
+            $exitpoint = 2;
         }
         mysql_close($dbh);
+        return $exitpoint;
     }
 
     //verifies that the username is not already in the database

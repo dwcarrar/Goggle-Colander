@@ -1,36 +1,37 @@
 <?php
-session_start();
-if (isset($_POST["username"])) {
 
-$dbh = mysql_connect("classdb.it.mtu.edu:3307", "jpaquett", "squidward")
-        or die ("Couldn't connect to database.");
-
-$db  = mysql_select_db("tspdatabase", $dbh)
-        or die ("Couldn't select database.");
-
-$sql = "SELECT password , username FROM user where username = '".$_POST['username']."';";
-
-$result = mysql_query($sql, $dbh)
-        or die("SQL statement is wrong.");
-
-$row = mysql_fetch_array($result);
+class logIn {
 
 
-if ( $_POST["username"] == ""  ) {
+  function TryLogIn($uname, $pass) {
+    $dbh = mysql_connect("classdb.it.mtu.edu:3307", "jpaquett", "squidward")
+            or die ("Couldn't connect to database.");
 
-    echo 'Please enter a password';
-    header("LOCATION:home.php");
+    $db  = mysql_select_db("tspdatabase", $dbh)
+            or die ("Couldn't select database.");
+ 
+    $sql = "SELECT password , username FROM user where username = '$uname';";
 
-}
-else if ( ((str_rot13($row[0]) == $_POST['password']) && ($row[1]) == $_POST['username']) ) {
-    echo 'reached if';        
-    header("LOCATION:conlander.php");
+    $result = mysql_query($sql, $dbh)
+            or die("SQL statement is wrong.");
+
+    $row = mysql_fetch_array($result);
+
+
+    if ( $uname == "" ) {
+        echo 'Please enter a username';
+
+    }
+    else if ( ((str_rot13($row[0]) == $pass) && ($row[1]) == $uname) ) {
+        echo 'reached if';        
+        header("LOCATION:conlander.php");
         
-}
-else {
-    echo 'Wrong username or password';
-}
-}
-mysql_close($dbh);
+    }
+    else {
+        echo 'Wrong username or password';
 
+    }
+    mysql_close($dbh);
+  }
+}
 ?>
