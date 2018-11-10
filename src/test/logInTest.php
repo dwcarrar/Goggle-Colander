@@ -4,7 +4,7 @@ include(__DIR__.'/../main/logIn.php');
 
 class logInTest extends \PHPUnit_Framework_TestCase
 {
-  public function testNosername()
+  public function testNoUsername()
   {
     $logger = new logIn();
     $this->assertEquals(0,$logger->TryLogIn("",""));

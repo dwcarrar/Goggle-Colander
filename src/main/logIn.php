@@ -33,6 +33,7 @@ class logIn {
         $exitpoint = 2;  
     }
     mysql_close($dbh);
+    return $exitpoint;
   }
 }
 ?>
