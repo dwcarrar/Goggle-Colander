@@ -1,5 +1,14 @@
 <?php
     include 'signUp.php'; 
+    include 'logIn.php';
+
+    if (isset($_POST['LogSubmit']) && isset($_POST['username'])) {
+        $uname = htmlentities($_POST['username']);
+        $pass = htmlentities($_POST['password']);
+
+        $logger = new logIn();
+        $logger->TryLogIn($uname,$pass);
+    }
         
     if (isset($_POST['SignSubmit'])) {
         $name = htmlentities($_POST['name']);
@@ -42,7 +51,7 @@
 
 <h1 style="color:blue;"> Goggle Colander </h1>
 
-<form class="center" method = post action = "logIn.php">
+<form class="center" method = post action = "">
 Username: <input type="username" name="username"></br>
 Password: <input type="password" name="password"></br>
 <input type = "submit" name = "LogSubmit" value = "Sign In">

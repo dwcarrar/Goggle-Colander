@@ -34,12 +34,13 @@ class signUpTest extends \PHPUnit_Framework_TestCase
 
     $signer->TrySignUp("test","test","password","password");
 
-    $sql = "select username from user where username = '$uname'";
+    $sql = "select username from user where username = 'test';";
     $name_occurs = mysql_num_rows(mysql_query($sql, $dbh));
 
-    $this->assertEquals(1,$name_occurs);
+    $sql = "delete from user where username = 'test';";
+    $delete = mysql_query($sql, $dbh);
 
-    $sql = "delete from user where username = test";
+    $this->assertEquals(1,$name_occurs);
 
     mysql_close($dbh);
   }

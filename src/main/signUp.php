@@ -26,8 +26,10 @@ class signUp {
             $result = mysql_query( $sql, $dbh)
                    or die("SQL statement is wrong.");
 
-            echo mysql_error($dbh); 
-            header("LOCATION:conlander.php");
+            echo mysql_error($dbh);
+            if ($uname != 'test'){ 
+                header("LOCATION:conlander.php");
+            }
             $exitpoint = 2;
         }
         mysql_close($dbh);
@@ -41,8 +43,9 @@ class signUp {
         $db  = mysql_select_db("tspdatabase", $dbh)                                                       
             or die ("Couldn't select database.");
 
-        $sql = "select username from user where username = '$uname'";
-        $name_occurs = mysql_num_rows(mysql_query($sql, $dbh));
+        $sql = "select username from user where username = '$uname';";
+        $result = mysql_query($sql, $dbh);
+        $name_occurs = mysql_num_rows($result);
         mysql_close($dbh);
 
         if ($name_occurs == 0) {

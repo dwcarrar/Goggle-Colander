@@ -1,0 +1,5 @@
+signUp and login have 100% code coverage
+main has 0% coverage, but is strictly UI other than its usage of signUp and login
+colander has 0% coverage. The code still needs to be reworked before it can be tested.
+
+All tests are passing.

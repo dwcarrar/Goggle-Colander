@@ -4,6 +4,8 @@ class logIn {
 
 
   function TryLogIn($uname, $pass) {
+    $exitpoint = 0;
+
     $dbh = mysql_connect("classdb.it.mtu.edu:3307", "jpaquett", "squidward")
             or die ("Couldn't connect to database.");
 
@@ -20,16 +22,15 @@ class logIn {
 
     if ( $uname == "" ) {
         echo 'Please enter a username';
-
     }
     else if ( ((str_rot13($row[0]) == $pass) && ($row[1]) == $uname) ) {
-        echo 'reached if';        
+        echo 'reached if';
+        $exitpoint = 1;
         header("LOCATION:conlander.php");
-        
     }
     else {
         echo 'Wrong username or password';
-
+        $exitpoint = 2;  
     }
     mysql_close($dbh);
   }
