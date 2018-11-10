@@ -7,7 +7,6 @@
   <!--class file outputs-->
   <property name="build.dir" value="build"/>
   <property name="main.classes.dir" value="/local/group_projects/cs3141/classdb/tspdatabase/main"/>
-  <property name="test.classes.dir" value="build/test"/>
 
   <target name ="clean">
     <delete dir = "${build.dir}"/>
@@ -16,7 +15,6 @@
 
   <target name = "prepare">
     <mkdir dir="${main.classes.dir}"/>
-    <mkdir dir="${test.classes.dir}"/>
   </target>
 
   <target name="test" depends="prepare">
