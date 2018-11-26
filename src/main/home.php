@@ -52,16 +52,16 @@
 <h1 style="color:blue;"> Goggle Colander </h1>
 
 <form class="center" method = post action = "">
-Username: <input type="username" name="username"></br>
-Password: <input type="password" name="password"></br>
+<input type="username" placeholder="Username" name="username"></br>
+<input type="password" placeholder="Password" name="password"></br>
 <input type = "submit" name = "LogSubmit" value = "Sign In">
 </form>
 
 <form method = "post" action = "">
-Name: <input type="username" name="name"></br>
-Username: <input type="username" name="susername"></br>
-Password: <input type="password" name="password1"></br>
-Re-Enter Your Password: <input type="password" name="password2"></br>
+<input type="username" placeholder="Name" name="name"></br>
+<input type="username" placeholder="Username" name="susername"></br>
+<input type="password" placeholder="Password" name="password1"></br>
+<input type="password" placeholder="Re-Enter Your Password" name="password2"></br>
 <input type = "submit" name = "SignSubmit" value = "Sign Up">
 </form>
 
