@@ -9,7 +9,6 @@
   <property name="main.classes.dir" value="/local/group_projects/cs3141/classdb/tspdatabase/main"/>
 
   <target name ="clean">
-    <delete dir = "${build.dir}"/>
     <delete dir = "${main.classes.dir}"/>
   </target>
 
