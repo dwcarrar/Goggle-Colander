@@ -2,11 +2,11 @@
 class Event {
 
     function AddEvent ( $name, $description,$date,  $start, $end ) {
-        echo"$name"; 
-        echo"$desription"; 
-        echo"$date"; 
-        echo"$start"; 
-        echo"$end"; 
+        echo $name."</br>"; 
+        echo $description."</br>"; 
+        echo $date."</br>"; 
+        echo $start."</br>"; 
+        echo $end."</br>"; 
         $dbh = mysql_connect("classdb.it.mtu.edu:3307", "jpaquett", "squidward", true) 
                 or die ("Couldn't connect to database.");                                  
         $db  = mysql_select_db("tspdatabase", $dbh)                                    

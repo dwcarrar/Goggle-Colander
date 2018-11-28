@@ -12,10 +12,10 @@ class signUp {
 
         $unique = $this->UniqueName($uname);
         if (!($unique)) {
-            echo "This username is already in use.";             
+            echo 'This username is already in use.';             
         }
         else if ($pass1 != $pass2) {
-            echo "The passwords entered do not match!";
+            echo 'The passwords entered do not match!';
             $exitpoint = 1;
         }
         else {
@@ -27,9 +27,7 @@ class signUp {
                    or die("SQL statement is wrong.");
 
             echo mysql_error($dbh);
-            if ($uname != 'test'){ 
-                header("LOCATION:conlander.php");
-            }
+
             $exitpoint = 2;
         }
         mysql_close($dbh);
