@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include 'signUp.php'; 
     include 'logIn.php';
 
@@ -7,7 +8,11 @@
         $pass = htmlentities($_POST['password']);
 
         $logger = new logIn();
-        $logger->TryLogIn($uname,$pass);
+        $valid = $logger->TryLogIn($uname,$pass);
+	if ($valid == 1) {
+	    $_SESSION['loggedin'] = true;
+	    header("LOCATION:conlander.php");
+	}
     }
         
     if (isset($_POST['SignSubmit'])) {

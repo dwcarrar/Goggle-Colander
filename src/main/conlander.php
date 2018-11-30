@@ -1,8 +1,17 @@
  <?php
+   session_start();
+   if (!$_SESSION['loggedin']) {
+	header("LOCATION:home.php");
+	return;
+   }
+
    date_default_timezone_set('America/Detroit');
    
         include 'addEvent.php';
- 
+var_dump($_POST); 
+	if (isset ($_POST['username'])) {
+	    $uname = htmlentities($_POST['username']);
+	}
         if (isset($_GET['submitDate'])) {
             $date = htmlentities($_GET['date']);
         } 
@@ -16,7 +25,7 @@
 		    $end = null;
 		}
                 $event = new Event();
-                $event->AddEvent($name,$desc,$date,$start,$end);
+                $event->AddEvent($uname, $name,$desc,$date,$start,$end);
         }
 
  
