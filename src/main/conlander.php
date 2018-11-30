@@ -3,17 +3,20 @@
    
         include 'addEvent.php';
  
-        if (isset($_POST['submitDate'])) {
-            $date = htmlentities($_POST['date']);
+        if (isset($_GET['submitDate'])) {
+            $date = htmlentities($_GET['date']);
         } 
         if (isset($_POST['submit']) && isset($_POST['name'])) {
                 $name = htmlentities($_POST['name']);
                 $desc = htmlentities($_POST['description']);
-                $start = htmlentities($_POST['startTime']);
-                $end = htmlentities($_POST['endTime']);
-
+                $start = htmlentities($_POST['startTime']).":00";
+                if ($_POST['endTime'] != "") {
+		    $end = htmlentities($_POST['endTime']).":00";
+		} else {
+		    $end = null;
+		}
                 $event = new Event();
-                //$event->AddEvent($name,$desc,$date,$start,$end);
+                $event->AddEvent($name,$desc,$date,$start,$end);
         }
 
  
@@ -48,13 +51,13 @@
         $date = $ym.'-'.$day;
 
         if ($today == $date) {
-            $week .= '<td class="today"><form method="post" action="#modal">';
+            $week .= '<td class="today"><form method="get" action="#modal">';
             $week .= '<input type="hidden" name="date" value="'.$date.'">
                           <input class="dateEvents" type="submit" name="submitDate" value="'.$day.'"></form>';
 
         }
         else {
-            $week .= '<td><form method="post" action="#modal">';
+            $week .= '<td><form method="get" action="#modal">';
             $week .= '<input type="hidden" name="date" value="'.$date.'">
                           <input class="dateEvents" type="submit" name="submitDate" value="'.$day.'"></form>';
         }
@@ -143,7 +146,7 @@
             background: powderblue;
             border:2px solid #222;
             padding:20px;
-            box-shadow: 0px 0px 50px 5px black;
+            box-shadow: 0px 0px 30px 5px black;
         }
 
         .btnSubmit{
@@ -157,7 +160,7 @@
         }
         .modal_heading{
             text-align:center;
-            font-family: big john;
+            font-family: "Arial Black";
             font-size:20pt;
         }
         .close{
@@ -171,6 +174,7 @@
             text-decoration:none;
             top:0px;
             right:0px;
+	    margin: 3px 3px 0px 0px;
             border-radius: 5px;
             transition: background 500ms; 
         }
@@ -178,6 +182,11 @@
             background:#444;
             cursor:pointer;
         }
+	.modal_container p {
+	    margin: 5px 0px 0px 0px;
+	    font-family: "Arial";
+	    font-size: 12pt;
+	}
     </style>
 </head>
 
@@ -208,11 +217,17 @@
             <span class="modal_heading">
                 CREATE EVENT
             </span>
+	    <hr>
             <form method="post" action="#">
-                <input type="text" placeholder="Name" name="name"></br>
-                <input type="text" placeholder="Description" name="description"></br>
-                Start Time: <input type="time" name="startTime"></br>
-                End Time: &nbsp<input type="time" name="endTime"></br>
+                <p>Name:</p>
+		<input type="text" placeholder="Name your Event" name="name">
+                <p>Description:</p>
+		<input type="text" placeholder="Enter a Description" name="description">
+                <p>Start Time:</p>
+		<input type="time" name="startTime">
+                <p>End Time:</p>
+		<input type="time" name="endTime">
+		</br>
                 <input type = "submit" class="btnSubmit" name = "submit" value = "Submit">
             </form>
         </div>

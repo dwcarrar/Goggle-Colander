@@ -58,10 +58,10 @@
 </form>
 
 <form method = "post" action = "">
-<input type="username" placeholder="Name" name="name"></br>
-<input type="username" placeholder="Username" name="susername"></br>
-<input type="password" placeholder="Password" name="password1"></br>
-<input type="password" placeholder="Re-Enter Your Password" name="password2"></br>
+<input type="username" maxlength="10" placeholder="Name" name="name"></br>
+<input type="username" maxlength="10" placeholder="Username" name="susername"></br>
+<input type="password" maxlength="10" placeholder="Password" name="password1"></br>
+<input type="password" maxlength="10" placeholder="Re-Enter Your Password" name="password2"></br>
 <input type = "submit" name = "SignSubmit" value = "Sign Up">
 </form>
 
