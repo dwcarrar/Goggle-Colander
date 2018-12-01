@@ -1,41 +1,35 @@
 <?php
 class Event {
 
-    function AddEvent ( $name, $description,$date,  $start, $end ) {
-        echo $name."</br>"; 
-        echo $description."</br>"; 
-        echo $date."</br>"; 
-        echo $start."</br>"; 
-        echo $end."</br>"; 
+    function AddEvent ( $uname, $name, $description,$date,  $start, $end ) { 
         $dbh = mysql_connect("classdb.it.mtu.edu:3307", "jpaquett", "squidward", true) 
                 or die ("Couldn't connect to database.");                                  
         $db  = mysql_select_db("tspdatabase", $dbh)                                    
                 or die ("Couldn't select database.");                                      
         
-        $sql = "INSERT into event(name, description, date, startTime, endTime) values('$name', '$description', '$date', '$start', '$end');";
+        $sql = "INSERT into events(username, name, description, date, startTime, endTime) values('$uname', '$name', '$description', '$date', '$start', '$end');";
 
         $result = mysql_query($sql, $dbh)
-            or die ("SQL statement is wrong.");
-
+		or die ("SQL statement is wrong.");
+	echo mysql_error($dbh);
         mysql_close($dbh);
     
     }
 
 
     function updateName ( $name, $id ) {
-    
+ 
         $dbh = mysql_connect("classdb.it.mtu.edu:3307", "jpaquett", "squidward", true) 
                 or die ("Couldn't connect to database.");                                  
         $db  = mysql_select_db("tspdatabase", $dbh)                                    
                 or die ("Couldn't select database.");                                      
         
-        $sql = "UPDATE event SET name = '$name' where eventID = '$id';";
+        $sql = "UPDATE events SET name = '$name' where eventID = '$id';";
 
-        $result = mysql_query($sql, $dbh)
-            or die ("SQL statement is wrong.");
+        $result = mysql_query($sql, $dbh) 
+		or die ("SQL statement is wrong.");
 
         mysql_close($dbh);
-    
     }
 
 
@@ -46,7 +40,7 @@ class Event {
         $db  = mysql_select_db("tspdatabase", $dbh)                                    
                 or die ("Couldn't select database.");                                      
         
-        $sql = "UPDATE event SET description = '$description' where eventID = '$id';";
+        $sql = "UPDATE events SET description = '$description' where eventID = '$id';";
 
         $result = mysql_query($sql, $dbh)
             or die ("SQL statement is wrong.");
@@ -63,7 +57,7 @@ class Event {
         $db  = mysql_select_db("tspdatabase", $dbh)                                    
                 or die ("Couldn't select database.");                                      
         
-        $sql = "UPDATE event SET date = '$date' where eventID = '$id';";
+        $sql = "UPDATE events SET date = '$date' where eventID = '$id';";
 
         $result = mysql_query($sql, $dbh)
             or die ("SQL statement is wrong.");
@@ -80,7 +74,7 @@ class Event {
         $db  = mysql_select_db("tspdatabase", $dbh)                                    
                 or die ("Couldn't select database.");                                      
         
-        $sql = "UPDATE event SET startTime = '$start' where eventID = '$id';";
+        $sql = "UPDATE events SET startTime = '$start' where eventID = '$id';";
 
         $result = mysql_query($sql, $dbh)
             or die ("SQL statement is wrong.");
@@ -97,7 +91,7 @@ class Event {
         $db  = mysql_select_db("tspdatabase", $dbh)                                    
                 or die ("Couldn't select database.");                                      
         
-        $sql = "UPDATE event SET endTime = '$end' where eventID = '$id';";
+        $sql = "UPDATE events SET endTime = '$end' where eventID = '$id';";
 
         $result = mysql_query($sql, $dbh)
             or die ("SQL statement is wrong.");
@@ -106,14 +100,14 @@ class Event {
     
     }
 
-    function deleteEvent ( $name, $description, $date, $start, $end ) {
+    function deleteEvent ( $id ) {
     
         $dbh = mysql_connect("classdb.it.mtu.edu:3307", "jpaquett", "squidward", true) 
                 or die ("Couldn't connect to database.");                                  
         $db  = mysql_select_db("tspdatabase", $dbh)                                    
                 or die ("Couldn't select database.");                                      
         
-        $sql = "DELETE FROM event where name = '$name' AND description = '$description' AND date = '$date' AND startTime = '$start' AND endTime = '$end';";
+        $sql = "DELETE FROM events where event_id = '$id';";
 
         $result = mysql_query($sql, $dbh)
             or die ("SQL statement is wrong.");
@@ -121,5 +115,44 @@ class Event {
         mysql_close($dbh);
     
     }
+
+    function getDayEvents ( $uname, $date) {
+
+        $dbh = mysql_connect("classdb.it.mtu.edu:3307", "jpaquett", "squidward", true)
+                or die ("Couldn't connect to database.");
+        $db  = mysql_select_db("tspdatabase", $dbh)
+                or die ("Couldn't select database.");
+
+        $sql = "SELECT event_id, name, description, startTime, endTime FROM events WHERE username = '$uname' AND date = '$date' ORDER BY startTime";
+
+        $result = mysql_query($sql, $dbh)
+            or die ("SQL statement is wrong.");
+
+	return $result;
+        mysql_close($dbh);
+
+    }
+
+    function convertTime($time) {
+	$time = substr($time,0,5);
+	if ($hour = (int)substr($time,0,2)>12) {
+	    $time = ($hour-12).substr($time,2,5)."pm";
+	} elseif ($hour == '00') {
+	    $time = ($hour+12).substr($time,2,5)."am";
+	} elseif ($hour == '12') {
+	    $time = $time."pm";
+	} else {
+	    $time = $time."am";
+	}
+	
+	if (substr($time,0,1) == '-') {
+	    $time = substr($time,1);
+	}
+	if (substr($time,0,1) == '0') {
+	    $time = substr($time,1);
+	}	
+	return $time;
+    }
+
 }
 ?>

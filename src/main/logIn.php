@@ -26,7 +26,6 @@ class logIn {
     else if ( ((str_rot13($row[0]) == $pass) && ($row[1]) == $uname) ) {
         echo 'reached if';
         $exitpoint = 1;
-        header("LOCATION:conlander.php");
     }
     else {
         echo 'Wrong username or password';

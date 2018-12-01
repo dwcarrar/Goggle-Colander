@@ -7,9 +7,8 @@
 
    date_default_timezone_set('America/Detroit');
    
-        include 'addEvent.php';
-var_dump($_POST); 
-	if (isset ($_POST['username'])) {
+        include 'addEvent.php'; 
+	if (isset ($_SESSION['username'])) {
 	    $uname = htmlentities($_SESSION['username']);
 	}
         if (isset($_GET['submitDate'])) {
@@ -26,6 +25,7 @@ var_dump($_POST);
 		}
                 $event = new Event();
                 $event->AddEvent($uname, $name,$desc,$date,$start,$end);
+		header("LOCATION:conlander.php");
         }
 
  
@@ -60,16 +60,23 @@ var_dump($_POST);
         $date = $ym.'-'.$day;
 
         if ($today == $date) {
-            $week .= '<td class="today"><form method="get" action="#modal">';
-            $week .= '<input type="hidden" name="date" value="'.$date.'">
-                          <input class="dateEvents" type="submit" name="submitDate" value="'.$day.'"></form>';
+            $week .= '<td class="today">';
 
         }
         else {
-            $week .= '<td><form method="get" action="#modal">';
-            $week .= '<input type="hidden" name="date" value="'.$date.'">
-                          <input class="dateEvents" type="submit" name="submitDate" value="'.$day.'"></form>';
+            $week .= '<td>';
         }
+	$week .= '<form style="height:18px;" method="get" action="#modal">';
+        $week .= '<input type="hidden" name="date" value="'.$date.'">
+                      <input class="dateEvents" type="submit" name="submitDate" value="'.$day.'"></form>';
+	$event = new Event();
+	$dayEvents = $event->getDayEvents($uname,$date);
+	
+	if ($dayEvents) {
+	    while ($row = mysql_fetch_array($dayEvents)) {
+	        $week .= '<div class="inBoxEvent">'.$row[1].":</br> &nbsp&nbsp&nbsp&nbsp".$event->convertTime($row[3])."-".$event->convertTime($row[4]).'</div>';	
+	    }
+	}
         $week .= '</td>'; 
 
         if ($str % 7 == 6 || $day == $day_count) {
@@ -102,8 +109,8 @@ var_dump($_POST);
             font-weight: 700;
         }
         td {
-            height: 100px;
-            width: 150px;
+            height: 125px;
+            width: 250px;
         }
         .today {
             background: #fffd8e;
@@ -124,11 +131,16 @@ var_dump($_POST);
             border:none;
             background: rgba(255,255,255,0);
             opacity= .5;
+	    margin-bottom:0px;
         }
         .dateEvents:hover {
             cursor:pointer;
             font-weight: bold;
-        }        
+        }
+        .inBoxEvent {
+	    margin-top:0px;
+	    font-size:8pt;
+	}
         .modal_container {
             width:100%;
             height:100%;
