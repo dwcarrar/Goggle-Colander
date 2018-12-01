@@ -10,6 +10,7 @@
         $logger = new logIn();
         $valid = $logger->TryLogIn($uname,$pass);
 	if ($valid == 1) {
+        $_SESSION['username'] = $_POST['username'];
 	    $_SESSION['loggedin'] = true;
 	    header("LOCATION:conlander.php");
 	}

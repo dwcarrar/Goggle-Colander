@@ -10,7 +10,7 @@
         include 'addEvent.php';
 var_dump($_POST); 
 	if (isset ($_POST['username'])) {
-	    $uname = htmlentities($_POST['username']);
+	    $uname = htmlentities($_SESSION['username']);
 	}
         if (isset($_GET['submitDate'])) {
             $date = htmlentities($_GET['date']);
