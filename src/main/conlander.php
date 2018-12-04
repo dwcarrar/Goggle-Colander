@@ -13,7 +13,34 @@
 	}
         if (isset($_GET['submitDate'])) {
             $date = htmlentities($_GET['date']);
-        } 
+        }
+	if (isset($_POST['dispEvent'])) {
+	    $eventId = htmlentities($_POST['eventId']);
+            $eventName = htmlentities($_POST['eventName']);
+            $eventDesc = htmlentities($_POST['eventDesc']);
+            $eventStart = htmlentities($_POST['eventStart']);
+            $eventEnd = htmlentities($_POST['eventEnd']);
+            $eventDate = htmlentities($_POST['eventDate']);
+	}
+        if (isset($_POST['changeEvent'])) {
+            $eventId = htmlentities($_POST['eventId']);
+            $eventName = htmlentities($_POST['eventName']);
+            $eventDesc = htmlentities($_POST['eventDesc']);
+            $eventStart = htmlentities($_POST['eventStart']);
+            $eventEnd = htmlentities($_POST['eventEnd']);
+                $eventEnd .= ":00";
+	    $eventDate = htmlentities($_POST['eventDate']);
+
+	    $event = new Event();
+	    $event->updateEvent($eventId,$eventName,$eventDesc,$eventStart,$eventEnd,$eventDate);
+        }
+	if (isset($_POST['deleteEvent'])) {
+var_dump($_POST);
+	    $eventId = htmlentities($_POST['eventId']);
+echo $eventId;
+	    $event = new Event();
+	    $event->deleteEvent($eventId);
+	}
         if (isset($_POST['submit']) && isset($_POST['name'])) {
                 $name = htmlentities($_POST['name']);
                 $desc = htmlentities($_POST['description']);
@@ -66,7 +93,7 @@
         else {
             $week .= '<td>';
         }
-	$week .= '<form style="height:18px;" method="get" action="#modal">';
+	$week .= '<form style="height:18px;" method="get" action="#modalCreate">';
         $week .= '<input type="hidden" name="date" value="'.$date.'">
                       <input class="dateEvents" type="submit" name="submitDate" value="'.$day.'"></form>';
 	$event = new Event();
@@ -74,7 +101,15 @@
 	
 	if ($dayEvents) {
 	    while ($row = mysql_fetch_array($dayEvents)) {
-	        $week .= '<div class="inBoxEvent">'.$row[1].":</br> &nbsp&nbsp&nbsp&nbsp".$event->convertTime($row[3])."-".$event->convertTime($row[4]).'</div>';	
+	        $week .= '<div class="inBoxEvent"><form action="#modalEdit" method="post">
+				<input type="hidden" name="eventId" value="'.$row[0].'">
+                                <input type="hidden" name="eventName" value="'.$row[1].'">
+                                <input type="hidden" name="eventDesc" value="'.$row[2].'">
+                                <input type="hidden" name="eventStart" value="'.$row[3].'">
+                                <input type="hidden" name="eventEnd" value="'.$row[4].'">
+				<input type="hidden" name="eventDate" value="'.$row[5].'">
+				<input class="eventName" type="submit" name="dispEvent" value="'.$row[1].':">
+				<p>&nbsp&nbsp&nbsp&nbsp'.$event->convertTime($row[3])."-".$event->convertTime($row[4]).'</p></form></div>';
 	    }
 	}
         $week .= '</td>'; 
@@ -95,7 +130,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-font-family: 'Amatic SC', cursive;8">
-    <title>PHP Calendar</title>
+    <title>Goggle Colandar</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="ano     nymous">
     <link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">            
     <style>
@@ -105,12 +140,13 @@
         }
         th {
             height: 30px;
+	    width: 140px;
             text-align: center;
             font-weight: 700;
         }
         td {
             height: 125px;
-            width: 250px;
+            width: 140px;
         }
         .today {
             background: #fffd8e;
@@ -137,9 +173,30 @@
             cursor:pointer;
             font-weight: bold;
         }
+	.eventName {
+            position:relative;
+            top: -8px;
+	    left: -10px;
+            height: 35px;
+            text-align:center;
+            border:none;
+            background: rgba(255,255,255,0);
+            opacity= .5;
+            margin-bottom:0px;
+	}
+	.eventName:hover {
+            cursor:pointer;
+            font-weight: bold;
+        }
         .inBoxEvent {
 	    margin-top:0px;
 	    font-size:8pt;
+	    height:30px;
+	}
+	.inBoxEvent p {
+	    position: relative;
+	    top: -20px;
+	    margin-top: 0px;
 	}
         .modal_container {
             width:100%;
@@ -159,7 +216,7 @@
         .modal{
             display: block;
             width:350px;
-            height:400px;
+            height: 500px;
             margin:auto;
             position: absolute;
             top:0px; bottom:0px;
@@ -171,14 +228,28 @@
         }
 
         .btnSubmit{
-            background:green;
-            color:white;
+            background: rgb(70,185,170);
             margin-top:10px;
             border-radius:5px;
+            transition: background 100ms;
         }
         .btnSubmit:hover{
-            background:#b80000;
+            background: rgb(65,245,220);
         }
+	.deleteBtn {
+	    position: relative;
+	    cursor: pointer;
+	    top: 10px;
+	    float: right;
+	    border-radius: 5px;
+	    background: red;
+	    color: white;
+            transition: background 100ms;
+	}
+	.deleteBtn:hover {
+	    background:white;
+	    color:red;
+	}
         .modal_heading{
             text-align:center;
             font-family: "Arial Black";
@@ -192,15 +263,16 @@
             font-family: big john;
             background:red;
             opacity:1;
-            text-decoration:none;
+            text-decoration: none;
             top:0px;
             right:0px;
 	    margin: 3px 3px 0px 0px;
             border-radius: 5px;
-            transition: background 500ms; 
+            transition: background 100ms; 
         }
         .close:hover{
-            background:#444;
+            background: rgb(155,25,25);
+	    color: white;
             cursor:pointer;
         }
 	.modal_container p {
@@ -232,7 +304,7 @@
             ?>           
         </table>
     </div>
-    <div class="modal_container" id="modal">
+    <div class="modal_container" id="modalCreate">
         <div class="modal">
             <a href="#" class="close">X</a>
             <span class="modal_heading">
@@ -241,15 +313,41 @@
 	    <hr>
             <form method="post" action="#">
                 <p>Name:</p>
-		<input type="text" placeholder="Name your Event" name="name">
+		<input type="text" maxlength="20"  placeholder="Name your Event" name="name">
                 <p>Description:</p>
-		<input type="text" placeholder="Enter a Description" name="description">
+		<textarea type="text" rows="2" cols="40" maxlength="100" placeholder="Enter a Description" name="description"></textarea>
                 <p>Start Time:</p>
 		<input type="time" name="startTime">
                 <p>End Time:</p>
-		<input type="time" name="endTime">
+		<input type="time" name="endTime" value="null">
 		</br>
                 <input type = "submit" class="btnSubmit" name = "submit" value = "Submit">
+            </form>
+        </div>
+    </div>
+
+ <div class="modal_container" id="modalEdit">
+        <div class="modal">
+            <a href="#" class="close">X</a>
+            <span class="modal_heading">
+                EDIT EVENT
+            </span>
+            <hr>
+            <form method="post" action="#">
+                <input type="hidden" name="eventId" value="<?php echo $eventId;?>">
+		<p>Name:</p>
+                <input type="text" maxlength="20" name="eventName" value="<?php echo $eventName;?>"> 
+                <p>Description:</p>
+                <textarea type="text" rows="2" cols="40" maxlength="100" name="eventDesc"><?php echo $eventDesc;?></textarea>
+                <p>Date:</p>
+                <input type="date" name="eventDate" value="<?php echo $eventDate;?>">
+		<p>Start Time:</p>
+                <input type="time" name="eventStart" value="<?php echo $eventStart;?>">
+                <p>End Time:</p>
+                <input type="time" name="eventEnd" value="<?php echo $eventEnd;?>">
+                </br>
+                <input type = "submit" class="btnSubmit" name = "changeEvent" value = "Submit">
+		<input class="deleteBtn" type="submit" name = "deleteEvent" value="Delete">
             </form>
         </div>
     </div>

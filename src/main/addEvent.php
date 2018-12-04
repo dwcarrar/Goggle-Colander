@@ -17,87 +17,20 @@ class Event {
     }
 
 
-    function updateName ( $name, $id ) {
+    function updateEvent ( $id, $name, $desc, $start, $end, $date ) {
  
         $dbh = mysql_connect("classdb.it.mtu.edu:3307", "jpaquett", "squidward", true) 
                 or die ("Couldn't connect to database.");                                  
         $db  = mysql_select_db("tspdatabase", $dbh)                                    
                 or die ("Couldn't select database.");                                      
         
-        $sql = "UPDATE events SET name = '$name' where eventID = '$id';";
+        $sql = "UPDATE events SET name = '$name', description='$desc', startTime='$start', endTime='$end', date='$date' where event_id = '$id';";
 
         $result = mysql_query($sql, $dbh) 
 		or die ("SQL statement is wrong.");
+        echo mysql_error($dbh);
 
         mysql_close($dbh);
-    }
-
-
-    function updateDescription ( $description, $id ) {
-    
-        $dbh = mysql_connect("classdb.it.mtu.edu:3307", "jpaquett", "squidward", true) 
-                or die ("Couldn't connect to database.");                                  
-        $db  = mysql_select_db("tspdatabase", $dbh)                                    
-                or die ("Couldn't select database.");                                      
-        
-        $sql = "UPDATE events SET description = '$description' where eventID = '$id';";
-
-        $result = mysql_query($sql, $dbh)
-            or die ("SQL statement is wrong.");
-
-        mysql_close($dbh);
-    
-    }
-
-
-    function updateDate ( $date, $id ) {
-    
-        $dbh = mysql_connect("classdb.it.mtu.edu:3307", "jpaquett", "squidward", true) 
-                or die ("Couldn't connect to database.");                                  
-        $db  = mysql_select_db("tspdatabase", $dbh)                                    
-                or die ("Couldn't select database.");                                      
-        
-        $sql = "UPDATE events SET date = '$date' where eventID = '$id';";
-
-        $result = mysql_query($sql, $dbh)
-            or die ("SQL statement is wrong.");
-
-        mysql_close($dbh);
-    
-    }
-
-
-    function updateStart ( $start, $id ) {
-    
-        $dbh = mysql_connect("classdb.it.mtu.edu:3307", "jpaquett", "squidward", true) 
-                or die ("Couldn't connect to database.");                                  
-        $db  = mysql_select_db("tspdatabase", $dbh)                                    
-                or die ("Couldn't select database.");                                      
-        
-        $sql = "UPDATE events SET startTime = '$start' where eventID = '$id';";
-
-        $result = mysql_query($sql, $dbh)
-            or die ("SQL statement is wrong.");
-
-        mysql_close($dbh);
-    
-    }
-
-
-    function updateEnd ( $end, $id ) {
-    
-        $dbh = mysql_connect("classdb.it.mtu.edu:3307", "jpaquett", "squidward", true) 
-                or die ("Couldn't connect to database.");                                  
-        $db  = mysql_select_db("tspdatabase", $dbh)                                    
-                or die ("Couldn't select database.");                                      
-        
-        $sql = "UPDATE events SET endTime = '$end' where eventID = '$id';";
-
-        $result = mysql_query($sql, $dbh)
-            or die ("SQL statement is wrong.");
-
-        mysql_close($dbh);
-    
     }
 
     function deleteEvent ( $id ) {
@@ -123,7 +56,7 @@ class Event {
         $db  = mysql_select_db("tspdatabase", $dbh)
                 or die ("Couldn't select database.");
 
-        $sql = "SELECT event_id, name, description, startTime, endTime FROM events WHERE username = '$uname' AND date = '$date' ORDER BY startTime";
+        $sql = "SELECT event_id, name, description, startTime, endTime, date FROM events WHERE username = '$uname' AND date = '$date' ORDER BY startTime";
 
         $result = mysql_query($sql, $dbh)
             or die ("SQL statement is wrong.");
