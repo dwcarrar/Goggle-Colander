@@ -20,7 +20,13 @@ class addEventTest extends \PHPUnit_Framework_TestCase {
 
     
 
+    public function testConvertTimePM () {
+	$event = new Event();
 
+	$time = '19:30:00';
+
+	$this->assertEquals('7:30pm', $event->convertTime($time));
+    }
 
 }
 

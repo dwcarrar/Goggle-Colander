@@ -9,9 +9,14 @@ class Event {
         
         $sql = "INSERT into events(username, name, description, date, startTime, endTime) values('$uname', '$name', '$description', '$date', '$start', '$end');";
 
-        $result = mysql_query($sql, $dbh)
-		or die ("SQL statement is wrong.");
-	echo mysql_error($dbh);
+        if (mysql_query($sql, $dbh)) {
+	     echo 'event created';
+	     return 1;
+	} else {
+	    echo "SQL statement is wrong.";
+	    echo mysql_error($dbh);
+	    return 0;
+	}
         mysql_close($dbh);
     
     }
@@ -68,7 +73,8 @@ class Event {
 
     function convertTime($time) {
 	$time = substr($time,0,5);
-	if ($hour = (int)substr($time,0,2)>12) {
+	$hour = substr($time,0,2);
+	if ($hour>12) {
 	    $time = ($hour-12).substr($time,2,5)."pm";
 	} elseif ($hour == '00') {
 	    $time = ($hour+12).substr($time,2,5)."am";

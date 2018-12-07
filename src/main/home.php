@@ -23,7 +23,10 @@
         $pass2 = htmlentities($_POST['password2']);
  
         $signer = new signUp();
-        $signer->TrySignUp($name,$uname,$pass1,$pass2);
+        $success=$signer->TrySignUp($name,$uname,$pass1,$pass2);
+	if ($success == 2) {
+	    echo "<script>alert('Sign-Up Successful!');</script>";
+	}
     }
 ?>
 <html>

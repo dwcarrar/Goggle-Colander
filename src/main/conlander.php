@@ -1,16 +1,16 @@
  <?php
    session_start();
-   if (!$_SESSION['loggedin']) {
-	header("LOCATION:home.php");
-	return;
-   }
-
+    if (!$_SESSION['loggedin']) {
+ 	header("LOCATION:home.php");
+ 	return;
+    }
    date_default_timezone_set('America/Detroit');
    
         include 'addEvent.php'; 
 	if (isset ($_SESSION['username'])) {
 	    $uname = htmlentities($_SESSION['username']);
 	}
+
         if (isset($_GET['submitDate'])) {
             $date = htmlentities($_GET['date']);
         }
@@ -33,13 +33,15 @@
 
 	    $event = new Event();
 	    $event->updateEvent($eventId,$eventName,$eventDesc,$eventStart,$eventEnd,$eventDate);
+	    
+            header("LOCATION:conlander.php");
         }
 	if (isset($_POST['deleteEvent'])) {
-var_dump($_POST);
 	    $eventId = htmlentities($_POST['eventId']);
-echo $eventId;
 	    $event = new Event();
 	    $event->deleteEvent($eventId);
+	    
+            header("LOCATION:conlander.php");
 	}
         if (isset($_POST['submit']) && isset($_POST['name'])) {
                 $name = htmlentities($_POST['name']);
@@ -51,8 +53,10 @@ echo $eventId;
 		    $end = null;
 		}
                 $event = new Event();
-                $event->AddEvent($uname, $name,$desc,$date,$start,$end);
-		header("LOCATION:conlander.php");
+                $created = $event->AddEvent($uname, $name,$desc,$date,$start,$end);
+		
+                header("LOCATION:conlander.php");
+
         }
 
  
@@ -83,8 +87,13 @@ echo $eventId;
 
     $week .= str_repeat('<td></td>', $str);
 
+    if (substr($today,-2,-2) == 0) {
+	$today = substr($today,0,-2).substr($today,-1);
+    }
+
     for ($day = 1; $day <= $day_count; $day++, $str++) {
         $date = $ym.'-'.$day;
+
 
         if ($today == $date) {
             $week .= '<td class="today">';
@@ -93,6 +102,7 @@ echo $eventId;
         else {
             $week .= '<td>';
         }
+
 	$week .= '<form style="height:18px;" method="get" action="#modalCreate">';
         $week .= '<input type="hidden" name="date" value="'.$date.'">
                       <input class="dateEvents" type="submit" name="submitDate" value="'.$day.'"></form>';
@@ -134,22 +144,27 @@ echo $eventId;
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="ano     nymous">
     <link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">            
     <style>
+	body {
+	    background-color: powderblue;
+	}
         .container {
             font-family: 'Amatic SC', cursive;
             margin-top: 80px;
         }
         th {
+	    background: rgb(220,220,220);
             height: 30px;
 	    width: 140px;
             text-align: center;
-            font-weight: 700;
+            font-weight: 500;
         }
         td {
+	    background: rgb(240,240,245);
             height: 125px;
             width: 140px;
         }
         .today {
-            background: #fffd8e;
+            background: rgb(225,255,230);
         }
         th:nth-of-type(7),td:nth-of-type(7){
             color: red;
@@ -280,11 +295,27 @@ echo $eventId;
 	    font-family: "Arial";
 	    font-size: 12pt;
 	}
+	.logoutBtn {
+	    border-style: outset;
+	    float: right;
+	    background: rgb(198,198,198);
+	    text-decoration: none;
+	    color: black;
+	    border-radius: 7px;
+	    padding: 3px;
+	}
+	.logoutBtn: hover {
+	    font-weight: bold;
+	    text-decoration: none;
+	    color: black;
+	    background: rgb(150,150,150);
+	}
     </style>
 </head>
 
 <body>
     <div class="container">
+	<a href="logout.php" class="logoutBtn" >Log Out</a>
         <h3><a href="?ym=<?php echo $prev; ?>">&lt;</a> <?php echo $html_title; ?> <a href="?ym=<?php echo $next; ?>">&gt;</a></h3>
         <br>
         <table class="table table-bordered">
