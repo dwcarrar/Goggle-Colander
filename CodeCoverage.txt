@@ -1,5 +1,34 @@
-signUp and login have 100% code coverage
-main has 0% coverage, but is strictly UI other than its usage of signUp and login
-colander has 0% coverage. The code still needs to be reworked before it can be tested.
+Overall:
+87.5% of functions are tested
+27.9% of lines are tested:
+	-conlander.php and home.php contain  70.1% of the project's code, but are mostly HTML, CSS, and Embedded PHP whose testing could not be automated, hence the low line coverage
 
-All tests are passing.
+
+addevent.php
+80% of functions are tested
+84.5% of lines tested
+
+conlander.php
+100% of functions tested: there are none
+1.5% of lines tested:
+	-file is mostly HTML/CSS. The few calls to functions are the only tested lines
+
+home.php
+100% of functions tested:
+	-there are none
+2.5% of lines tested:
+	-file is mostly HTML/CSS. The few calls to functions are the only tested lines
+
+login.php
+100% of functions tested
+100% of lines tested
+
+logout.php
+100% of functions tested:
+	-there are none
+0% of lines tested:
+	-there are just 6 lines of php ending session and redirecting to home
+
+signUp.php
+100% of functions tested
+100% of lines tested
